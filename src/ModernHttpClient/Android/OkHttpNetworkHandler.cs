@@ -33,7 +33,7 @@ namespace ModernHttpClient
 
         public NativeMessageHandler() : this(false, false) {}
 
-        public NativeMessageHandler(bool throwOnCaptiveNetwork, bool customSSLVerification, bool enableRc4Compatibility = false, bool enableClearTextCompatibility = false, NativeCookieHandler cookieHandler = null)
+        public NativeMessageHandler(bool throwOnCaptiveNetwork, bool customSSLVerification, bool enableRc4Compatibility = false, NativeCookieHandler cookieHandler = null)
         {
             this.throwOnCaptiveNetwork = throwOnCaptiveNetwork;
             var connectionSpecs = new List<ConnectionSpec>();
@@ -52,23 +52,9 @@ namespace ModernHttpClient
 
                 var modifiedCompatibleClearText = new ConnectionSpec.Builder(ConnectionSpec.Cleartext).Build();
 
-                connectionSpecs.Add(modifiedCompatibleTls);
+                client = client.SetConnectionSpecs(new List<ConnectionSpec>() { modifiedCompatibleTls , modifiedCompatibleClearText });
             }
             // end custom code
-
-            
-            // custom code for ClearText compatibility
-            if (enableClearTextCompatibility)
-            {
-                var modifiedCompatibleClearText = new ConnectionSpec.Builder(ConnectionSpec.Cleartext).Build();
-                connectionSpecs.Add(modifiedCompatibleClearText);
-            }
-
-            // set compatibility mode if enable
-            if (enableRc4Compatibility || enableClearTextCompatibility)
-            {
-                client = client.SetConnectionSpecs(connectionSpecs);
-            }
 
             if (customSSLVerification)
             {
@@ -165,13 +151,13 @@ namespace ModernHttpClient
                     }
                 }
             } catch (UnknownHostException ex) {
-                throw new HttpRequestException(string.Format("Unknown host [ URL={0}} ]", url), ex);
+                throw new HttpRequestException(string.Format("Unknown host [ URL={0} ]", url), ex);
             } catch (IOException ex) {
                 if (ex.Message.ToLowerInvariant().Contains("canceled")) {
-                    throw new OperationCanceledException(string.Format("[ URL={0}} ]", url) + ex.Message, ex);
+                    throw new OperationCanceledException(string.Format("[ URL={0} ]", url) + ex.Message, ex);
                 }
                     
-                throw new WebException(string.Format("[ URL={0}} ]", url) + ex.Message, WebExceptionStatus.ConnectFailure);
+                throw new WebException(string.Format("[ URL={0} ]", url) + ex.Message, WebExceptionStatus.ConnectFailure);
             }
 
             var respBody = resp.Body();
