@@ -36,7 +36,6 @@ namespace ModernHttpClient
         public NativeMessageHandler(bool throwOnCaptiveNetwork, bool customSSLVerification, bool enableRc4Compatibility = false, NativeCookieHandler cookieHandler = null)
         {
             this.throwOnCaptiveNetwork = throwOnCaptiveNetwork;
-            var connectionSpecs = new List<ConnectionSpec>();
 
             // custom code for RC4 compatibility
             if (enableRc4Compatibility)
