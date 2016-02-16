@@ -49,11 +49,14 @@ namespace ModernHttpClient
                     .CipherSuites(ciphersOfCompatibleTls.ToArray())
                     .Build();
 
-                client = client.SetConnectionSpecs(new List<ConnectionSpec> { modifiedCompatibleTls });
+                client = client.SetConnectionSpecs(new List<ConnectionSpec>() { modifiedCompatibleTls , ConnectionSpec.Cleartext });
             }
             // end custom code
 
-            if (customSSLVerification) client.SetHostnameVerifier(new HostnameVerifier());
+            if (customSSLVerification)
+            {
+                client.SetHostnameVerifier(new HostnameVerifier());
+            }
             noCacheCacheControl = (new CacheControl.Builder()).NoCache().Build();
         }
 
@@ -145,13 +148,13 @@ namespace ModernHttpClient
                     }
                 }
             } catch (UnknownHostException ex) {
-                throw new HttpRequestException("Unknown host", ex);
+                throw new HttpRequestException(string.Format("Unknown host [ URL={0} ]", url), ex);
             } catch (IOException ex) {
                 if (ex.Message.ToLowerInvariant().Contains("canceled")) {
-                    throw new OperationCanceledException(ex.Message, ex);
+                    throw new OperationCanceledException(string.Format("[ URL={0} ]", url) + ex.Message, ex);
                 }
                     
-                throw new WebException(ex.Message, WebExceptionStatus.ConnectFailure);
+                throw new WebException(string.Format("[ URL={0} ]", url) + ex.Message, WebExceptionStatus.ConnectFailure);
             }
 
             var respBody = resp.Body();

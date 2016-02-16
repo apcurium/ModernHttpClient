@@ -104,8 +104,9 @@ namespace Playground.Android
 
                     //var url = "https://mobile.cmtapi.com/v1";
                     //var url = "https://mobile-sandbox.cmtapi.com/v1";
-                    var url = "https://payment.cmtapi.com/v2";
+                    //var url = "https://payment.cmtapi.com/v2";
                     //var url = "https://payment-sandbox.cmtapi.com/v2";
+                    var url = "http://www.leprogrdfsdfes.fr/";
 
                     var request = new HttpRequestMessage(HttpMethod.Get, url);
                     handler.RegisterForProgress(request, HandleDownloadProgress);
