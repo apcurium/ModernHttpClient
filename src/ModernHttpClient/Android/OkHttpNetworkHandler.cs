@@ -49,9 +49,7 @@ namespace ModernHttpClient
                     .CipherSuites(ciphersOfCompatibleTls.ToArray())
                     .Build();
 
-                var modifiedCompatibleClearText = new ConnectionSpec.Builder(ConnectionSpec.Cleartext).Build();
-
-                client = client.SetConnectionSpecs(new List<ConnectionSpec>() { modifiedCompatibleTls , modifiedCompatibleClearText });
+                client = client.SetConnectionSpecs(new List<ConnectionSpec>() { modifiedCompatibleTls , ConnectionSpec.Cleartext });
             }
             // end custom code
 
