@@ -40,16 +40,16 @@ namespace ModernHttpClient
             // custom code for RC4 compatibility
             if (enableRc4Compatibility)
             {
-                var compatibleTls = ConnectionSpec.CompatibleTls;
-                var ciphersOfCompatibleTls = compatibleTls.CipherSuites().ToList();
-                ciphersOfCompatibleTls.Add(CipherSuite.TlsRsaWithRc4128Sha);
+                var modernTls = ConnectionSpec.ModernTls;
+                var ciphersOfModernTls = modernTls.CipherSuites().ToList();
+                ciphersOfModernTls.Add(CipherSuite.TlsRsaWithRc4128Sha);
 
-                var modifiedCompatibleTls = new ConnectionSpec.Builder(ConnectionSpec.CompatibleTls)
-                    .TlsVersions(compatibleTls.TlsVersions().ToArray())
-                    .CipherSuites(ciphersOfCompatibleTls.ToArray())
+                var modifiedModernTls = new ConnectionSpec.Builder(ConnectionSpec.ModernTls)
+                    .TlsVersions(modernTls.TlsVersions().ToArray())
+                    .CipherSuites(ciphersOfModernTls.ToArray())
                     .Build();
 
-                client = client.SetConnectionSpecs(new List<ConnectionSpec>() { modifiedCompatibleTls , ConnectionSpec.Cleartext });
+                client = client.SetConnectionSpecs(new List<ConnectionSpec>() {  modifiedModernTls, ConnectionSpec.CompatibleTls, ConnectionSpec.Cleartext });
             }
             // end custom code
 
