@@ -36,7 +36,7 @@ namespace ModernHttpClient
         /// will take place)</param>
         /// <param name="cookieHandler">Enable native cookie handling.
         /// </param>
-        public NativeMessageHandler(bool throwOnCaptiveNetwork, bool customSSLVerification, NativeCookieHandler cookieHandler = null) : base()
+        public NativeMessageHandler(bool throwOnCaptiveNetwork, bool customSSLVerification, bool enableRc4Compatibility = false, NativeCookieHandler cookieHandler = null) : base()
         {
         }
 
